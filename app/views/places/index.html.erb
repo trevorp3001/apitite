@@ -1,0 +1,45 @@
+<section id="info">
+
+			<header>
+		 		<h1><a href="#">Appetite</a></h1>
+				<h2>London's best places</h2>
+		  	</header>
+
+		  	<form action="/" method="get">
+		  		<input type="text" name="location">
+		  	</form>
+
+		  	<% if params[:location].present? %>
+
+		  		<h3><%= params[:location].titleize %></h3>
+
+		  	<% else %>
+
+		  		<h3>London</h3>
+
+		  	<% end %>
+
+			<ul>
+				<% @places.each do |place| %>
+				<li data-lat="<%= place.latitude %>" data-lng="<%= place.longitude %>">
+		     		<h3><%= place.name %></h3>
+		        	<p><%= place.address %></p>
+		        	
+		        	<% if params[:location].present? %>
+		        		<p><%= place.distance_to(params[:location]).round(1) %>km away</p>
+		        	<% end %>
+
+
+		        	<p><%= link_to "Delete", place_path(place), method: :delete, confirm: "Are you sure you wanna get rid?" %></p>
+		      	</li>
+		      	<% end %>
+		  	</ul>
+
+
+		</section>
+
+		<section id="map"></section>
+
+		
+		<%= link_to "Add location", new_place_path, class: "button" %>
+
